@@ -8,6 +8,8 @@ load_dotenv()
 MAIN_URL = os.environ.get('MAIN_URL')
 
 
+def clean_str(str):
+    return str.strip(' :.').lower().replace(' ', '_')
 
 def output_to_json(obj, filename):
     with open(filename, 'w+') as fn:
@@ -15,4 +17,6 @@ def output_to_json(obj, filename):
 
 def get_soup(url):
     resp = requests.get(url)
-    return BeautifulSoup(resp.content, "lxml")
+    if resp.status_code == 200:
+        return BeautifulSoup(resp.content, "lxml")
+    raise ValueError(f"{resp.status_code} received - not 200")

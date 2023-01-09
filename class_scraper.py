@@ -1,7 +1,5 @@
 from utils import output_to_json, get_soup, MAIN_URL
 
-
-
 def get_class_urls():
     soup = get_soup(MAIN_URL)
     class_urls = {}

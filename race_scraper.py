@@ -17,7 +17,6 @@ def get_race_urls():
 
     return race_urls
 
-
 def get_race_data():
     race_urls = get_race_urls()
     race_data = []
