@@ -39,7 +39,7 @@ def get_spell_info(spell_url):
             a_tags = p.find_all('a')
             class_list = map(lambda x: x.text, a_tags)
             spell_info['class_list'] = ','.join(class_list)  
-# use the duration as a marker on the page as we know the next element will be the description
+# use duration as a marker as we know the next element will be the description
         elif attr_text == 'duration':
             desc_p = attr.find_next('p')
             p_content = []
@@ -68,7 +68,6 @@ def get_spell_data():
     return spells
 
 if __name__ == "__main__":
-    # get_spell_info('http://dnd5e.wikidot.com/spell:dancing-lights')
     spells = get_spell_data()
 
     output_to_json(spells, './data/spells.json')
