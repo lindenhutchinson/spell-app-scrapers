@@ -107,4 +107,3 @@ def write_spell_data():
 
 if __name__ == "__main__":
     write_spell_data()
-

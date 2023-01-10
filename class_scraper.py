@@ -6,7 +6,7 @@ def get_class_urls():
     Returns a dictionary of class names and URLs by searching the main URL for 'sup' tags containing the text 'The'
     and finding the next sibling tag. If this tag has an 'href' attribute, the function adds the name of the class
     and its URL to the dictionary.
-    """ # noqa
+    """
     soup = get_soup(MAIN_URL)
     class_urls = {}
     for ident in soup.find_all("sup"):
@@ -25,7 +25,7 @@ def get_class_slots(class_url):
     text "Spell Slots per Spell Level" and then searching for all 'tr' tags after the first one. It iterates over
     the 'td' tags within these 'tr' tags and adds the values to the appropriate spell level in the dictionary. If it
     reaches a 'td' tag with the text "20th", it breaks out of the loop.
-    """ # noqa
+    """
     soup = get_soup(class_url)
     spell_th = soup.find("th", string="Spell Slots per Spell Level")
     if spell_th:
@@ -62,7 +62,7 @@ def get_class_data():
     """
     Returns a list of dictionaries containing class names, URLs, and spell slot data by calling the
     'get_class_urls' and 'get_class_slots' functions and storing the data in a list of dictionaries.
-    """  # noqa
+    """
     class_urls = get_class_urls()
     class_data = []
     for name, url in class_urls.items():
