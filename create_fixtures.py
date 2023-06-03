@@ -39,12 +39,13 @@ def create_slots_fixture(class_data, filename):
         class_pk = i + 1
         if item["slots"]:
             for level, slots in item["slots"].items():
-                for slots_at_level in slots:
+                for spell_level, slots_at_level in enumerate(slots):
                     if slots_at_level != 0:
                         fields = {
                             "class_type": class_pk,
-                            "spell_level": int(level),
-                            "slots_at_level": slots_at_level,
+                            "char_level": int(level),
+                            "spell_level": spell_level + 1,
+                            "slots": slots_at_level,
                         }
                         fixture_item = {
                             "model": f"{APP_NAME}.spellslotprogression",

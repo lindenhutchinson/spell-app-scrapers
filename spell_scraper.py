@@ -18,18 +18,23 @@ def get_spells():
     spells = []
     for table in soup.find_all(class_="wiki-content-table"):
         rows = table.find_all("tr")
+        # get the spell level off the current table
+        spell_level = int(table.parent.parent.attrs["id"][-1])
+        print(f"scraping level {spell_level} spells")
+
         # skip the header row
         headers = rows[0].find_all("th")
         for row in rows[1:]:
-            spell = {}
+            spell = {"level": spell_level}
             for i, cell in enumerate(row.find_all("td")):
                 if a_tag := cell.find("a"):
                     spell["url"] = MAIN_URL + a_tag.attrs["href"]
                     spell["name"] = cell.text
+                    spell.update(get_spell_info(spell["url"]))
                 else:
                     attr_text = clean_str(headers[i].text)
-                    if attr_text == 'range':
-                        attr_text = 'spell_range'
+                    if attr_text == "range":
+                        attr_text = "spell_range"
                     spell[attr_text] = cell.text
 
             spells.append(spell)
@@ -79,18 +84,18 @@ def get_spell_info(spell_url):
             while desc_p and "At Higher Levels" not in desc_p.text:
                 p_content.append(desc_p.text)
                 desc_p = desc_p.find_next("p")
+            spell_info["description"] = "<br><br>".join(p_content)
 
-            spell_info["description"] = "\n\n".join(p_content)
-            if desc_p:
-                spell_info["at_higher_levels"] = desc_p.text
+        elif attr_text == "at_higher_levels":
+            spell_info[attr_text] = attr.parent.text
 
     return spell_info
 
 
 def write_spell_data():
     spells = get_spells()
-    class_spells = get_class_spells()
-    output_to_json(class_spells, "./data/class_spells.json")
+    # class_spells = get_class_spells()
+    # output_to_json(class_spells, "./data/class_spells.json")
     output_to_json(spells, "./data/spells.json")
     # TODO: retrieve extra spell information
     # spell_len = len(spells)

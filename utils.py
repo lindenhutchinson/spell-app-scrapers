@@ -14,7 +14,7 @@ def clean_str(str):
 
 
 def output_to_json(obj, filename):
-    with open(filename, "w+") as fn:
+    with open(filename, "w+", encoding="utf-8") as fn:
         json.dump(obj, fn)
 
 
